@@ -1,295 +1,13 @@
 [
     {
-        "id": "8330f897.b102f",
+        "id": "3e3b889f.d6a9e",
         "type": "tab",
         "label": "PalmPlat",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "2e0112e9.01cff6",
-        "type": "ui_text_input",
-        "z": "8330f897.b102f",
-        "name": "",
-        "label": "dy1/dt",
-        "tooltip": "",
-        "group": "86ea3125.efafa8",
-        "order": 2,
-        "width": "7",
-        "height": "1",
-        "passthru": true,
-        "mode": "text",
-        "delay": 300,
-        "topic": "dy1",
-        "x": 270,
-        "y": 220,
-        "wires": [
-            [
-                "d30f93ca.217858"
-            ]
-        ]
-    },
-    {
-        "id": "c2d5af99.cb972",
-        "type": "ui_text_input",
-        "z": "8330f897.b102f",
-        "name": "",
-        "label": "dy2/dt",
-        "tooltip": "",
-        "group": "86ea3125.efafa8",
-        "order": 3,
-        "width": "7",
-        "height": "1",
-        "passthru": true,
-        "mode": "text",
-        "delay": 300,
-        "topic": "dy2",
-        "x": 270,
-        "y": 260,
-        "wires": [
-            [
-                "d30f93ca.217858"
-            ]
-        ]
-    },
-    {
-        "id": "901cf899.ec60f8",
-        "type": "ui_button",
-        "z": "8330f897.b102f",
-        "name": "",
-        "group": "86ea3125.efafa8",
-        "order": 4,
-        "width": "7",
-        "height": "1",
-        "passthru": false,
-        "label": "Enviar Modelo",
-        "tooltip": "",
-        "color": "",
-        "bgcolor": "",
-        "icon": "",
-        "payload": "true",
-        "payloadType": "bool",
-        "topic": "enviar",
-        "x": 260,
-        "y": 340,
-        "wires": [
-            [
-                "d30f93ca.217858",
-                "93510cfa.2d0088"
-            ]
-        ]
-    },
-    {
-        "id": "2a44052b.9cf3ca",
-        "type": "ui_chart",
-        "z": "8330f897.b102f",
-        "name": "",
-        "group": "2997cf53.684418",
-        "order": 3,
-        "width": "7",
-        "height": "7",
-        "label": "",
-        "chartType": "line",
-        "legend": "true",
-        "xformat": "HH:mm:ss",
-        "interpolate": "linear",
-        "nodata": "",
-        "dot": false,
-        "ymin": "-15",
-        "ymax": "15",
-        "removeOlder": "30",
-        "removeOlderPoints": "",
-        "removeOlderUnit": "1",
-        "cutout": 0,
-        "useOneColor": false,
-        "colors": [
-            "#1f77b4",
-            "#aec7e8",
-            "#ff7f0e",
-            "#2ca02c",
-            "#98df8a",
-            "#d62728",
-            "#ff9896",
-            "#9467bd",
-            "#c5b0d5"
-        ],
-        "useOldStyle": false,
-        "outputs": 1,
-        "x": 570,
-        "y": 440,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "360fc010.20b97",
-        "type": "mqtt in",
-        "z": "8330f897.b102f",
-        "name": "output",
-        "topic": "output",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "e43541b9.6aa44",
-        "x": 250,
-        "y": 420,
-        "wires": [
-            [
-                "93510cfa.2d0088"
-            ]
-        ]
-    },
-    {
-        "id": "f51e9fac.4bf2f",
-        "type": "mqtt in",
-        "z": "8330f897.b102f",
-        "name": "input",
-        "topic": "input",
-        "qos": "2",
-        "datatype": "auto",
-        "broker": "e43541b9.6aa44",
-        "x": 250,
-        "y": 480,
-        "wires": [
-            [
-                "93510cfa.2d0088"
-            ]
-        ]
-    },
-    {
-        "id": "93510cfa.2d0088",
-        "type": "function",
-        "z": "8330f897.b102f",
-        "name": "",
-        "func": "if (msg.topic == 'enviar'){\n    msg.payload = [];\n}\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 400,
-        "y": 440,
-        "wires": [
-            [
-                "2a44052b.9cf3ca"
-            ]
-        ]
-    },
-    {
-        "id": "d30f93ca.217858",
-        "type": "function",
-        "z": "8330f897.b102f",
-        "name": "",
-        "func": "var topic = msg.topic;\nvar payload = msg.payload;\n\nif (topic == 'dy1'){\n    global.set('dy1', payload);\n}\n\nif (topic == 'dy2'){\n    global.set('dy2', payload);\n}\n\nif (topic == 'parametros'){\n    global.set('parametros', payload);\n}\n\nif (topic == 'variaveis'){\n    global.set('variaveis', payload);\n}\n\nif (topic == 'enviar'){\n    msg.payload = global.get('dy1') + \"$\" + global.get('dy2') + \"$\" + global.get('parametros') + \"$\" + global.get('variaveis');\n    return msg;\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 530,
-        "y": 300,
-        "wires": [
-            [
-                "6e65930.34424ec"
-            ]
-        ]
-    },
-    {
-        "id": "6e65930.34424ec",
-        "type": "mqtt out",
-        "z": "8330f897.b102f",
-        "name": "Modelo",
-        "topic": "modelo",
-        "qos": "0",
-        "retain": "",
-        "broker": "e43541b9.6aa44",
-        "x": 740,
-        "y": 300,
-        "wires": []
-    },
-    {
-        "id": "a98f1611.bedbb",
-        "type": "ui_text_input",
-        "z": "8330f897.b102f",
-        "name": "",
-        "label": "Variáveis com condições iniciais",
-        "tooltip": "separadas por vírgula",
-        "group": "86ea3125.efafa8",
-        "order": 1,
-        "width": "7",
-        "height": "1",
-        "passthru": true,
-        "mode": "text",
-        "delay": 300,
-        "topic": "variaveis",
-        "x": 270,
-        "y": 180,
-        "wires": [
-            [
-                "d30f93ca.217858"
-            ]
-        ]
-    },
-    {
-        "id": "f45e11e4.2cf4f8",
-        "type": "ui_text_input",
-        "z": "8330f897.b102f",
-        "name": "",
-        "label": "Parâmetros",
-        "tooltip": "separadas por vírgula",
-        "group": "86ea3125.efafa8",
-        "order": 1,
-        "width": "7",
-        "height": "1",
-        "passthru": true,
-        "mode": "text",
-        "delay": 300,
-        "topic": "parametros",
-        "x": 270,
-        "y": 300,
-        "wires": [
-            [
-                "d30f93ca.217858"
-            ]
-        ]
-    },
-    {
-        "id": "30a98676.e56322",
-        "type": "inject",
-        "z": "8330f897.b102f",
-        "name": "",
-        "topic": "",
-        "payload": "[]",
-        "payloadType": "json",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "x": 390,
-        "y": 580,
-        "wires": [
-            [
-                "2a44052b.9cf3ca"
-            ]
-        ]
-    },
-    {
-        "id": "86ea3125.efafa8",
-        "type": "ui_group",
-        "z": "",
-        "name": "Modelo",
-        "tab": "1e91197c.8acdb7",
-        "order": 1,
-        "disp": true,
-        "width": "7",
-        "collapse": false
-    },
-    {
-        "id": "2997cf53.684418",
-        "type": "ui_group",
-        "z": "",
-        "name": "",
-        "tab": "1e91197c.8acdb7",
-        "order": 2,
-        "disp": true,
-        "width": "7",
-        "collapse": false
-    },
-    {
-        "id": "e43541b9.6aa44",
+        "id": "cf5a9d7b.77f67",
         "type": "mqtt-broker",
         "z": "",
         "name": "node-red-python-communication",
@@ -311,7 +29,104 @@
         "willPayload": ""
     },
     {
-        "id": "1e91197c.8acdb7",
+        "id": "ceb7cfdb.a17e78",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-dark",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#097479",
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#000000",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#0eb8c0",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#097479",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 50,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "ba96876b.a94bc8",
         "type": "ui_tab",
         "z": "",
         "name": "PalmPlant",
@@ -319,5 +134,315 @@
         "order": 1,
         "disabled": false,
         "hidden": false
+    },
+    {
+        "id": "cd08cdcb.b0cf18",
+        "type": "ui_group",
+        "z": "",
+        "name": "Modelo",
+        "tab": "ba96876b.a94bc8",
+        "order": 1,
+        "disp": true,
+        "width": "7",
+        "collapse": false
+    },
+    {
+        "id": "3666d707.a27ff8",
+        "type": "function",
+        "z": "3e3b889f.d6a9e",
+        "name": "",
+        "func": "if (msg.topic == 'enviar'){\n    msg.payload = [];\n    return msg;\n}\n\nif (msg.topic == 'output'){\n    msg.payload = msg.payload.readDoubleLE();\n    return msg;\n}\n\nif (msg.topic == 'input'){\n    msg.payload = msg.payload.readDoubleLE();\n    return msg;\n}\n    ",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 560,
+        "y": 310,
+        "wires": [
+            [
+                "4a3d0bc.b5fd2f4"
+            ]
+        ]
+    },
+    {
+        "id": "29247593.1999c2",
+        "type": "function",
+        "z": "3e3b889f.d6a9e",
+        "name": "",
+        "func": "var topic = msg.topic;\nvar payload = msg.payload;\n\nif (topic == 'dy1'){\n    global.set('dy1', payload);\n}\n\nif (topic == 'dy2'){\n    global.set('dy2', payload);\n}\n\nif (topic == 'parametros'){\n    global.set('parametros', payload);\n}\n\nif (topic == 'variaveis'){\n    global.set('variaveis', payload);\n}\n\nif (topic == 'enviar'){\n    msg.payload = global.get('parametros') + \"$\" + global.get('variaveis') + \"$\" +  global.get('dy1') + \",\" + global.get('dy2');\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 632,
+        "y": 180,
+        "wires": [
+            [
+                "6f41693c.1363e"
+            ]
+        ]
+    },
+    {
+        "id": "6f41693c.1363e",
+        "type": "mqtt out",
+        "z": "3e3b889f.d6a9e",
+        "name": "Modelo",
+        "topic": "modelo",
+        "qos": "0",
+        "retain": "",
+        "broker": "cf5a9d7b.77f67",
+        "x": 775,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "f9bde39.fa48fa",
+        "type": "ui_button",
+        "z": "3e3b889f.d6a9e",
+        "name": "",
+        "group": "cd08cdcb.b0cf18",
+        "order": 7,
+        "width": "4",
+        "height": "1",
+        "passthru": false,
+        "label": "Enviar Modelo",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "enviar",
+        "x": 362,
+        "y": 220,
+        "wires": [
+            [
+                "29247593.1999c2",
+                "3666d707.a27ff8"
+            ]
+        ]
+    },
+    {
+        "id": "c0d6dc38.e21d8",
+        "type": "ui_text_input",
+        "z": "3e3b889f.d6a9e",
+        "name": "",
+        "label": "dy1/dt",
+        "tooltip": "",
+        "group": "cd08cdcb.b0cf18",
+        "order": 3,
+        "width": "7",
+        "height": "1",
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "dy1",
+        "x": 328,
+        "y": 145,
+        "wires": [
+            [
+                "29247593.1999c2"
+            ]
+        ]
+    },
+    {
+        "id": "ae4a38b8.7a26",
+        "type": "ui_text_input",
+        "z": "3e3b889f.d6a9e",
+        "name": "",
+        "label": "dy2/dt",
+        "tooltip": "",
+        "group": "cd08cdcb.b0cf18",
+        "order": 4,
+        "width": "7",
+        "height": "1",
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "dy2",
+        "x": 330,
+        "y": 182,
+        "wires": [
+            [
+                "29247593.1999c2"
+            ]
+        ]
+    },
+    {
+        "id": "7ed3c141.8674b8",
+        "type": "ui_text_input",
+        "z": "3e3b889f.d6a9e",
+        "name": "Variáveis",
+        "label": "Variáveis com condições iniciais",
+        "tooltip": "separadas por vírgula",
+        "group": "cd08cdcb.b0cf18",
+        "order": 2,
+        "width": "7",
+        "height": "1",
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "variaveis",
+        "x": 334,
+        "y": 107,
+        "wires": [
+            [
+                "29247593.1999c2"
+            ]
+        ]
+    },
+    {
+        "id": "71f7c3f0.f783d4",
+        "type": "ui_text_input",
+        "z": "3e3b889f.d6a9e",
+        "name": "",
+        "label": "Parâmetros",
+        "tooltip": "separadas por vírgula",
+        "group": "cd08cdcb.b0cf18",
+        "order": 1,
+        "width": "7",
+        "height": "1",
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "parametros",
+        "x": 344,
+        "y": 71,
+        "wires": [
+            [
+                "29247593.1999c2"
+            ]
+        ]
+    },
+    {
+        "id": "4a3d0bc.b5fd2f4",
+        "type": "ui_chart",
+        "z": "3e3b889f.d6a9e",
+        "name": "",
+        "group": "cd08cdcb.b0cf18",
+        "order": 5,
+        "width": "7",
+        "height": "6",
+        "label": "",
+        "chartType": "line",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": "30",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "1",
+        "cutout": 0,
+        "useOneColor": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "useOldStyle": false,
+        "outputs": 1,
+        "x": 705,
+        "y": 310,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "117d5529.dcd893",
+        "type": "tcp in",
+        "z": "3e3b889f.d6a9e",
+        "name": "output",
+        "server": "server",
+        "host": "",
+        "port": "8888",
+        "datamode": "stream",
+        "datatype": "buffer",
+        "newline": "",
+        "topic": "output",
+        "base64": false,
+        "x": 398,
+        "y": 277,
+        "wires": [
+            [
+                "3666d707.a27ff8"
+            ]
+        ]
+    },
+    {
+        "id": "e6498001.1943",
+        "type": "tcp in",
+        "z": "3e3b889f.d6a9e",
+        "name": "input",
+        "server": "server",
+        "host": "",
+        "port": "8887",
+        "datamode": "stream",
+        "datatype": "buffer",
+        "newline": "",
+        "topic": "input",
+        "base64": false,
+        "x": 398,
+        "y": 330,
+        "wires": [
+            [
+                "3666d707.a27ff8"
+            ]
+        ]
+    },
+    {
+        "id": "fba7556c.dda0b8",
+        "type": "ui_button",
+        "z": "3e3b889f.d6a9e",
+        "name": "",
+        "group": "cd08cdcb.b0cf18",
+        "order": 6,
+        "width": "3",
+        "height": "1",
+        "passthru": false,
+        "label": "Carregar Exemplo",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "icon": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "enviar",
+        "x": 144,
+        "y": 243,
+        "wires": [
+            [
+                "f945c557.d88f"
+            ]
+        ]
+    },
+    {
+        "id": "f945c557.d88f",
+        "type": "function",
+        "z": "3e3b889f.d6a9e",
+        "name": "",
+        "func": "var parametros = {};\n//parametros.payload = global.get('parametros');\nparametros.payload = \"Q = 10, d = 5, Omega = 1\";\n\nvar variaveis = {};\n//variaveis.payload = global.get('variaveis');\nvariaveis.payload = \"theta = 0, omega = 0, t = 0\";\n\nvar dy1 = {};\n//dy1.payload = global.get('dy1');\ndy1.payload = \"omega\";\n\nvar dy2 = {};\n//dy2.payload = global.get('dy2');\ndy2.payload = \"-omega/Q + np.sin(theta) + d*np.cos(Omega*t)\";\n\nreturn [parametros, variaveis, dy1, dy2];",
+        "outputs": 4,
+        "noerr": 0,
+        "x": 153,
+        "y": 129,
+        "wires": [
+            [
+                "71f7c3f0.f783d4"
+            ],
+            [
+                "7ed3c141.8674b8"
+            ],
+            [
+                "c0d6dc38.e21d8"
+            ],
+            [
+                "ae4a38b8.7a26"
+            ]
+        ]
     }
 ]
