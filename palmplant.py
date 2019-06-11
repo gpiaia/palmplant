@@ -6,9 +6,9 @@ import socket
 import serial
 
 def create_file_model():
+    global model_str
     f= open("Model.py","w")
 
-    global model_str
     model_str = model_str.replace(" ", "")
     split_str = model_str.split('$')
     parameters = split_str[0].split(',')
@@ -71,11 +71,11 @@ def solver():
     print ('Creating model... ')
     y0 = create_file_model()
     y0 = [theta0, omega0]
+
     # Make time array for solution
-    tStop = 2000.
+    tStop = 200.
     tInc = 0.05
     t = np.arange(0., tStop, tInc)
-    
     cnt = 0
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -88,28 +88,52 @@ def solver():
     
     print ('Opening the serial port ...')
     ser = serial.Serial(
-    port='/dev/ttyS0',
-    baudrate = 115200,
-    parity=serial.PARITY_NONE,
-    stopbits=serial.STOPBITS_ONE,
-    bytesize=serial.EIGHTBITS,
-    timeout=1)
+        port='/dev/ttyS0',
+        baudrate = 115200,
+        parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE,
+        bytesize=serial.EIGHTBITS,
+        timeout=1
+    )
+
+    print('Testing serial communication ...')
+    ser.write((str(0)+'\n').encode('utf-8'))
+    
+    x=ser.readline()
+
+    while (ser.readline() == '\n') :
+        x=ser.readline()
 
     print('Solving ...')
+
     time_init = time.time()
-    for x in range(len(t)-1):
+
+    size_t = len(t)-1
+    for x in range(size_t):
         y = odeint(model.function, y0, [t[x], t[x+1]])
         y0 = y[1]
-        y_b=ser.read(4)
-        
-        ser.write(y_b)
+
+        offset = 32767
+        gain = 700
+        an_out = offset + gain*y[0,0]
+
+        if((an_out >= 0) & (an_out <= 65535)):
+            ser.write((str(int(an_out))+'\n').encode('utf-8'))
+        else:
+            print('Data out of range in analog output!')
+
+        # x=ser.readline()
+        # while (ser.readline() == '\n') :
+        #     x=ser.readline()
 
         cnt = cnt + 1
         if(cnt >= 10):
             s.send(y[0,0]) 
             cnt = 0;
+            print(str(x) + '/' + str(size_t))
 
-    print(time.time()-time_init)
+    ser.write((str(0)+'\n').encode('utf-8'))
+    print(str(time.time()-time_init) + 's')
     s.close()
     ser.close()
     print ('Socket and Serial closed')
