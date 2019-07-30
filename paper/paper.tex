@@ -25,7 +25,7 @@
 \usepackage{mathrsfs}
 
 \begin{document}
-\title{PalmPlant: Kit Didático de Modelagem de Sistemas}
+\title{PalmPlant: Kit Didático para Modelagem de Sistemas}
 \author{
 	\vskip 1em
     	{
@@ -38,8 +38,9 @@
 \maketitle
 
 \begin{abstract}
-\end{abstract}
 No relatório apresentado, descrever-se-a o desenvolvimento de um kit didático de modelagem de sistemas, baseado em um sistema embarcado, um servidor web e um microcontrolador, onde pode ser inserido o modelo desejado, e o kit apresentará em sua saída, o sinal produto da solução do modelo inserido.
+\end{abstract}
+
 
 \markboth{Relatório de Modelagem de Sistemas - Mestrado Pofissional em Engenharia Elétrica $\quad\diamond\quad$ Julho de 2019}{}
 	\maketitle
@@ -52,22 +53,23 @@ No relatório apresentado, descrever-se-a o desenvolvimento de um kit didático 
 
 \section{Introdução}
 
-\IEEEPARstart{A}s disciplina de controle são imprescindíveis na forma acadêmica e profissional de muitas engenharias, indo da própria Engenharia de Controle e Automação, até a Engenharia Química, onde os processos químicos são modelados e controlados utilizando técnicas clássicas e modernas de controle. É incomum encontrar kit didático [1] de baixo custo para controle, ainda mais com uma interface simples e que possibilite implementações adicionais, desenvolvidas pelos alunos, por não serem de código e hardware abertos.
+\IEEEPARstart{A} s disciplina de controle são imprescindíveis na forma acadêmica e profissional de muitas engenharias, desde a própria Engenharia de Controle e Automação, até a Engenharia Química, onde os processos químicos são modelados e controlados utilizando técnicas clássicas e modernas de controle. É difícil encontrar kits didáticos de baixo custo para controle [1], ainda mais com uma interface simples e que possibilite implementações adicionais, desenvolvidas pelos alunos, por não serem de código e hardware abertos.
 
-Como uma alternativa, esse trabalho descreve o desenvolvimento de um kit didático de Software/Hardware abertos, com o objetivo de proporcionar ferramentas para uma aprendizagem mais robusta e eficaz, de um assunto abrangente e complexo. Isso se dá através de um dispositivo que é capaz de resolver as equações diferencias que foram inseridas pelo usuário e apresenta-las de forma tanto gráfica, quanto em uma saída analógica.
+Como uma alternativa, esse trabalho descreve o desenvolvimento de um kit didático de Software/Hardware abertos, com o objetivo de fornecer ferramentas para uma aprendizagem mais robusta e eficaz, de um assunto abrangente e complexo. Isso se dá através de um dispositivo que é capaz de resolver as equações diferencias que foram inseridas pelo usuário e apresenta-las de forma tanto gráfica, quanto em uma saída analógica.
 
-Algumas características que o kit possui:
+Algumas características do kit:
 
 \begin{itemize}[]
-	   \item Possibilite de inserção e solução de modelos matemáticos;
+	   \item Possibilidade de inserção e solução de modelos matemáticos;
 	   \item Saídas e entradas analógicas que podem ser utilizadas como variáveis no modelo matemático;
 	   \item Interface gráfica que pode ser reproduzida num smartphone;
 	   \item Não precisa de conhecimentos de controle e nem de programação para um primeiro contato, simplesmente ter em mãos as equações diferencias;
 	   \item Possibilidade de ser usado como um gêmeo digital de uma planta real, para acompanhar o desgaste da original;
-	   \item Pode ser usado para práticas e provas de identificação de modelos, onde o professor pode inserir secretamente um modelo e o aluno deve caracteriza-lo;
+	   \item Pode ser usado para práticas e provas de identificação de modelos, onde o professor pode inserir secretamente um modelo e o aluno deve caracteriza-lo corretamente;
 \end{itemize}
 
-Apoś eleitos os pontos principais, podeomos descrever o desenvolvimento do mesmo, que se encontra na sequência.
+Apoś eleitos os principais pontos, podeomos descrever o desenvolvimento do mesmo, que se encontra na sequência.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -81,61 +83,61 @@ Essa etapa é dedicada para a escolha e configuração do hardware onde as aplic
 
 A placa de desenvolvimento escolhida para executar o algoritmo de solução de equações diferenciais e o servidor web, foi a Raspberry Pi Zero W (RasPi Zero), que além de pequena e possuir todos as interfaces necessárias, possui um bom processamento e o sistema operacional é baseado em Linux, facilitando o desenvolvimento e o controle sobre o dispositivo.
 
-Como a RasPi Zero não possui GPIOs (\textit{General-purpose input/output}) ADCs (\textit{Analog-to-Digital Converter}), se faz necessário um periférico para tal funcionalidade. Esse periférico deve possuir um bom número de ADCs e DACs (\textit{Digital-to-Analog Converter}), pois isso limita quantos variáveis de saída e entrada o kit suportará, podendo limitar muito as aplicações, se não tiver mais do que um par de cada. Outro fator importante, é a resolução dos ADCs e DACs, pois influenciam na acurácia do sinal de saída, podendo propagar mais error em relação à um valor já aproximado via solução numérica de uma equação diferencial. A escolha para essa função, foi um microcontrolador da ST, da família Cortex-M4, com excelente desempenho e custo.
+Como a RasPi Zero não possui GPIOs (\textit{General-purpose input/output}) ADCs (\textit{Analog-to-Digital Converter}) e nem DACs (\textit{Digital-to-Analog Converter}), se faz necessário um periférico para tal funcionalidade. Esse periférico deve possuir um bom número de ADCs e DACs, pois isso limita quantas variáveis de saída e entrada o kit suportará, podendo limitar muito as aplicações, se não tiver mais do que um par de cada. Outro fator importante, é a resolução dos ADCs e DACs, pois influenciam na acurácia do sinal de saída, podendo propagar mais error em relação à um valor já aproximado via solução numérica de uma equação diferencial. A escolha para essa função, foi um microcontrolador da ST, da família Cortex-M4, com excelente desempenho, custo e reposição.
 
-A interface de comunicação com usuário, foi determinada pela facilidade e disponibilidade, sendo escolhido o smartphone ou qualquer outro dispositivo que possua um navegador web. Essa comunicação se dá através de uma rede Wi-Fi onde a RasPi Zero e o dispositivo com navegador estão conectados. O diagrama a seguir representa o hardware com as suas interfaces de comunicação.
+O dispositivo que funcionará como interface de comunicação com usuário, foi determinado pela facilidade e disponibilidade, sendo escolhido o smartphone ou qualquer outro dispositivo que possua um navegador web. Essa comunicação se dá através de uma rede Wi-Fi onde a RasPi Zero e o dispositivo com navegador estão conectados. O diagrama da figura (\ref{fig:diagrama}) representa o hardware com as suas interfaces de comunicação.
 
-\begin{figure}[H]
+\begin{figure}[!h]
 	\includegraphics[width=\linewidth]{img/diagrama.png}
     \caption{Diagrama do Kit. Fonte: elaborado pelo autor}
-    \label{fig:real}
+    \label{fig:diagrama}
 \end{figure}
 
-Como podemos ver, o elementos são poucos e as interfaces já bem conhecidas, ficando a cargo da camada de software implementar o diferencial desse projeto, que será explicado na sequência.
+Como podemos ver, o elementos são poucos e as interfaces já bem consolidadas, ficando a cargo da camada de software implementar o diferencial desse projeto, que será explicado na sequência.
 
 \subsection{Software}
 
 O desenvolvimento do software pode ser dividido em três parte: servidor web, software em Python e o software para o microcontrolador. Esses itens serão explicados na sequência.
 
-O servidor web é o principal contato do usuário com o kit, onde facilmente devem estar organizadas as informações, possibilidade de se enviar um modelo e visualizar o resultado da solução desse modelo. Para o desenvolvimento do mesmo, optamos pelo desenvolvimento em Node-Red, que é uma ferramenta para o desenvolvimento de dashboards de forma mais simples e direta, nos abstraindo todo o trabalho de se criar telas em HTML e scripts em JavaScript para gerencia-las. Esse servidor web é executado na própria RasPi Zero, o smartphone ou outro dispositivo com navegador, simplesmente recebe os dados e renderiza na pela o que o servidor está enviando. A imagem da sequência representa a tela inicial da interface com o usuário, onde temos alguns exemplos de modelos.
+O servidor web é o principal contato do usuário com o kit, onde facilmente devem estar organizadas as informações, possibilidade de se enviar um modelo e visualizar o resultado da solução desse modelo. Para o desenvolvimento do mesmo, optamos pelo desenvolvimento em Node-Red, que é uma ferramenta para o desenvolvimento de dashboards de forma mais simples e direta, nos abstraindo todo o trabalho de se criar telas em HTML e scripts em JavaScript para gerencia-las. Esse servidor web é executado na própria RasPi Zero, o smartphone ou outro dispositivo com navegador, simplesmente recebe os dados e renderiza na pela o que o servidor está enviando. A figura \ref{fig:examples} representa a tela inicial da interface com o usuário, onde temos alguns exemplos de modelos.
 
-\begin{figure}[H]
+\begin{figure}[!h]
 	\centering
-	\includegraphics[width=4.1cm]{img/examples.png}
+	\includegraphics[width=5.1cm]{img/examples.png}
     \caption{Tela com exemplos de modelos. Fonte: elaborado pelo autor}
     \label{fig:examples}
 \end{figure}
 
-Já na próxima imagem, já podemos ver a tela para inserção ou configuração do modelo, que ainda permite visualizar o resultado das equações diferenciais.
+Já na figura \ref{fig:running}, já podemos ver a tela para inserção e configuração do modelo, que ainda permite visualizar o resultado das equações diferenciais.
 
-\begin{figure}[H]
+\begin{figure}[!h]
 	\centering
-	\includegraphics[width=4.1cm]{img/running.png}
+	\includegraphics[width=5.1cm]{img/running.png}
     \caption{Tela de edição dos modelos e visualização da solução. Fonte: elaborado pelo autor}
     \label{fig:running}
 \end{figure}
 
 O software em Python é responsável por gerenciar a demanda de resolver o modelo requisitado pela interface de usuário, montar o modelo a partir dos dados recebidos da interface, resolver o modelo, enviar para a interface de usuário a resposta e enviar via serial o mesmo resultado para o microcontrolador, além de tratar outras interrupções que podem ser ativadas pelo usuário. Esse código é executado na RasPi Zero, juntamente com o servidor web.
 
-O firmware que é executado no microcontrolador é simplificado, implementado em C, o qual recebe via serial o valor ele deve escrever nos ADCs, e também, lê os valores de tensão que estão nos DACs e envia via serial para a RasPi Zero. Todas as funções também são chamadas via interrupção, não travando o código em repetidas verificações.
+O firmware que é executado no microcontrolador é simplificado, implementado em C, o qual recebe via serial o valor que ele deve escrever nos ADCs, e também, lê os valores de tensão que estão nos DACs e envia via serial para a RasPi Zero. Todas as funções também são chamadas via interrupção, não utilizando recursos fazendo repetidas verificações no laço principal.
 
-O diagrama a seguir, representa as principais partes do software, onde o firmware do microcontrolador não está incluso, por ser muito simples.
+O diagrama da figura \ref{fig:software}, representa as principais partes do software, onde o firmware do microcontrolador não está incluso, por ser muito simples.
 
-\begin{figure}[H]
+\begin{figure}[!h]
 	\includegraphics[width=\linewidth]{img/software.png}
     \caption{Diagrama de Software. Fonte: elaborado pelo autor}
-    \label{fig:real}
+    \label{fig:software}
 \end{figure}
 
-Com o diagrama anterior, concluímos o desenvolvimento e com isso, os resultados pode ser descrito.
+Com o diagrama da figura \ref{fig:software}, concluímos o desenvolvimento e com isso, os resultados pode ser descrito.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Resultados}
 
-Como mostrado no desenvolvimento, a interface de usuário possui uma aba para inserção do modelo. Foi exatamente o que foi feito para se obter os resultados, inclusive o mesmo modelo que pode ser visto na figura \ref{fig:running}. A imagem a seguir representa o resultado do kit.
+Como mostrado no desenvolvimento, a interface de usuário possui uma aba para inserção do modelo. Foi exatamente o que foi feito para se obter os resultados, inclusive o mesmo modelo que pode ser visto na figura \ref{fig:running}. A figura \ref{fig:real} representa o resultado do kit.
 
-\begin{figure}[!h]
+\begin{figure}[H]
 	\includegraphics[width=\linewidth]{img/real_running.png}
     \caption{Funcionamento da saída analógica de tensão. Fonte: elaborado pelo autor}
     \label{fig:real}
@@ -154,7 +156,7 @@ As implementações dos softwares se mostraram eficazes, pois em nenhum momento 
 
 A funcionalidade geral do kit se mostrou muito promissora, onde em bancada, o kit conseguiu processar as entradas do usuário, resolver as equações diferenciais, enviar esses dados de volta para a interface do usuário, e externar esse sinal via um ADC, sendo visualizado simultaneamente no osciloscópio e na interface com o usuário.
 
-Como um trabalho futuro, é imprescindível o projeto de uma placa de circuito impresso para unir todo o hardware em um único produto. Expandir a interface gráfica, criando telas para mais exemplos, outra para logs de sistemas e permitir o cascateamento dos kits, possibilitando a criação de um sistema mais complexo.
+Como um trabalho futuro, é imprescindível o projeto de uma placa de circuito impresso para unir todo o hardware em um único produto. Expandir a interface gráfica, criando telas para mais exemplos, outra para os registros de sistemas e permitir o cascateamento dos kits, possibilitando a criação de um sistema mais complexo.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
