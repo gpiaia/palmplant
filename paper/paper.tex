@@ -38,8 +38,8 @@
 \maketitle
 
 \begin{abstract}
-No relatório apresentado descrever-se-a o desenvolvimento de um kit didático de sistemas, baseado em um sistema embarcado, um servidor web e um microcontrolador, onde pode ser inserido o modelo desejado, e o kit se comportará conforme o modelo inserido, criando-se assim, um irmão gêmeo digital desse modelo.
 \end{abstract}
+No relatório apresentado, descrever-se-a o desenvolvimento de um kit didático de modelagem de sistemas, baseado em um sistema embarcado, um servidor web e um microcontrolador, onde pode ser inserido o modelo desejado, e o kit apresentará em sua saída, o sinal produto da solução do modelo inserido.
 
 \markboth{Relatório de Modelagem de Sistemas - Mestrado Pofissional em Engenharia Elétrica $\quad\diamond\quad$ Julho de 2019}{}
 	\maketitle
@@ -52,14 +52,22 @@ No relatório apresentado descrever-se-a o desenvolvimento de um kit didático d
 
 \section{Introdução}
 
-\IEEEPARstart{O} modelo escolhido foi um satélite simplificado, ou seja, um
+\IEEEPARstart{A}s disciplina de controle são imprescindíveis na forma acadêmica e profissional de muitas engenharias, indo da própria Engenharia de Controle e Automação, até a Engenharia Química, onde os processos químicos são modelados e controlados utilizando técnicas clássicas e modernas de controle. É incomum encontrar kit didático [1] de baixo custo para controle, ainda mais com uma interface simples e que possibilite implementações adicionais, desenvolvidas pelos alunos, por não serem de código e hardware abertos.
 
-\begin{enumerate}[1.]
-	   \item O satélite é um cubo sólido com densidade homogênea;
-	   \item As rodas também são sólidas e homogêneas;
-	   \item O satélite se encontra estático no espaço sideral, não sofrendo nenhuma força significante;
-	   \item A temperatura em que ele se encontra não prejudica o normal funcionamento
-\end{enumerate}
+Como uma alternativa, esse trabalho descreve o desenvolvimento de um kit didático de Software/Hardware abertos, com o objetivo de proporcionar ferramentas para uma aprendizagem mais robusta e eficaz, de um assunto abrangente e complexo. Isso se dá através de um dispositivo que é capaz de resolver as equações diferencias que foram inseridas pelo usuário e apresenta-las de forma tanto gráfica, quanto em uma saída analógica.
+
+Algumas características que o kit possui:
+
+\begin{itemize}[]
+	   \item Possibilite de inserção e solução de modelos matemáticos;
+	   \item Saídas e entradas analógicas que podem ser utilizadas como variáveis no modelo matemático;
+	   \item Interface gráfica que pode ser reproduzida num smartphone;
+	   \item Não precisa de conhecimentos de controle e nem de programação para um primeiro contato, simplesmente ter em mãos as equações diferencias;
+	   \item Possibilidade de ser usado como um gêmeo digital de uma planta real, para acompanhar o desgaste da original;
+	   \item Pode ser usado para práticas e provas de identificação de modelos, onde o professor pode inserir secretamente um modelo e o aluno deve caracteriza-lo;
+\end{itemize}
+
+Apoś eleitos os pontos principais, podeomos descrever o desenvolvimento do mesmo, que se encontra na sequência.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -146,12 +154,14 @@ As implementações dos softwares se mostraram eficazes, pois em nenhum momento 
 
 A funcionalidade geral do kit se mostrou muito promissora, onde em bancada, o kit conseguiu processar as entradas do usuário, resolver as equações diferenciais, enviar esses dados de volta para a interface do usuário, e externar esse sinal via um ADC, sendo visualizado simultaneamente no osciloscópio e na interface com o usuário.
 
-Como um trabalho futuro, é imprescindível o projeto de uma placa de circuito impresso para unir todo o hardware em um único produto. Expandir a interface gráfica, criando telas para mais exemplos, outra para logs de sistemas e permitir o cascateamento dos kits, podeficazesendo criar um sistema mais complexo.
+Como um trabalho futuro, é imprescindível o projeto de uma placa de circuito impresso para unir todo o hardware em um único produto. Expandir a interface gráfica, criando telas para mais exemplos, outra para logs de sistemas e permitir o cascateamento dos kits, possibilitando a criação de um sistema mais complexo.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
  \section{Bibliografia}
-[1] Nise, Norman. \textbf{Engenharia de Sistemas de Controle}, 5. ed. editora LTC, 2011
 
-[2] Ogata, Katsuhiko. \textbf{Engenharia de Controle Moderno}. 5. ed. editora Prentice Hall Brasil, 2010
+[1] E. A. Vendrusculo, A. A. Ferreira, J. A. Pomilio, “Plataforma Didática para Avaliação Rápida e Experimental de Estratégias de Controle em Eletrônica de Potência”; Eletrônica de Potência, vol. 13, no. 2, pp. 99-108, May 2008.
+
+[2] Nise, Norman. Engenharia de Sistemas de Controle, 5. ed. editora LTC, 2011
+
 \end{document}
